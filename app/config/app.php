@@ -96,6 +96,8 @@ return array(
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
         'Cartalyst\Sentry\SentryServiceProvider',
+        'Creolab\LaravelModules\ServiceProvider',
+        'Fraudchecker\Authentication\AuthenticationServiceProvider',
     ),
     /*
       |--------------------------------------------------------------------------
@@ -157,5 +159,6 @@ return array(
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View' => 'Illuminate\Support\Facades\View',
         'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
+        'Authentication' => 'Fraudchecker\Authentication\Facade'
     ),
 );
