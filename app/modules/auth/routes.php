@@ -1,5 +1,5 @@
 <?php
 
-Route::get('login', array('as' => 'login', 'uses' => 'App\Modules\Auth\Controllers\AuthController@getLogin'));
-Route::post('login', array('as' => 'login.post', 'uses' => 'App\Modules\Auth\Controllers\AuthController@postLogin'));
-Route::get('logout', array('as' => 'logout', 'uses' => 'App\Modules\Auth\Controllers\AuthController@getLogout'));
+Route::get('admin/login', array('as' => 'admin.login', 'before' => 'guest', 'uses' => 'App\Modules\Auth\Controllers\AuthController@getLogin'));
+Route::post('admin/login', array('as' => 'admin.login.post', 'before' => 'guest', 'uses' => 'App\Modules\Auth\Controllers\AuthController@postLogin'));
+Route::get('admin/logout', array('as' => 'admin.logout', 'uses' => 'App\Modules\Auth\Controllers\AuthController@getLogout'));

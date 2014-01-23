@@ -3,7 +3,7 @@
 @section('main')
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        {{ Form::open(array('route' => 'login.post')) }}
+        {{ Form::open(array('route' => 'admin.login.post')) }}
         <h2>Login</h2>
         <hr>
 

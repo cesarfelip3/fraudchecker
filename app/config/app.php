@@ -98,6 +98,7 @@ return array(
         'Cartalyst\Sentry\SentryServiceProvider',
         'Creolab\LaravelModules\ServiceProvider',
         'Fraudchecker\Authentication\AuthenticationServiceProvider',
+        'Agilize\Magento\MagentoServiceProvider',
     ),
     /*
       |--------------------------------------------------------------------------
@@ -159,6 +160,6 @@ return array(
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View' => 'Illuminate\Support\Facades\View',
         'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
-        'Authentication' => 'Fraudchecker\Authentication\Facade'
+        'Authentication' => 'Fraudchecker\Authentication\Facade',
     ),
 );

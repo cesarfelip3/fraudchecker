@@ -2,7 +2,14 @@
 
 namespace Fraudchecker\Authentication;
 
-use Cartalyst\Sentry\Sentry;
+use Cartalyst\Sentry\Sentry,
+    Cartalyst\Sentry\Users\LoginRequiredException AS LoginRequiredException,
+    Cartalyst\Sentry\Users\PasswordRequiredException AS PasswordRequiredException,
+    Cartalyst\Sentry\Users\WrongPasswordException AS WrongPasswordException,
+    Cartalyst\Sentry\Users\UserNotFoundException AS UserNotFoundException,
+    Cartalyst\Sentry\Users\UserNotActivatedException AS UserNotActivatedException,
+    Cartalyst\Sentry\Users\UserSuspendedException AS UserSuspendedException,
+    Cartalyst\Sentry\Users\UserBannedException AS UserBannedException;
 
 class AuthenticationService
 {
@@ -24,20 +31,28 @@ class AuthenticationService
         try {
             return $this->sentry->authenticate($credentials, $remember);
         }
-        catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
+        catch (LoginRequiredException $e) {
             $this->error = 'Login field is required.';
         }
-        catch (Cartalyst\Sentry\Users\PasswordRequiredException $e) {
+        catch (PasswordRequiredException $e) {
             $this->error = 'Password field is required.';
         }
-        catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
-            $this->error = 'Either email or password is wrong.';
+        catch (WrongPasswordException $e) {
+            $this->error = 'Wrong password, try again.';
         }
-        catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+        catch (UserNotFoundException $e) {
             $this->error = 'User was not found.';
         }
-        catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
+        catch (UserNotActivatedException $e) {
             $this->error = 'User is not activated.';
+        }
+
+// The following is only required if throttle is enabled
+        catch (UserSuspendedException $e) {
+            $this->error = 'User is suspended.';
+        }
+        catch (UserBannedException $e) {
+            $this->error = 'User is banned.';
         }
     }
 

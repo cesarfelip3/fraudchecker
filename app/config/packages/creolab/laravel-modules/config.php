@@ -17,6 +17,8 @@ return array(
     'modules' => array(
         'auth' => array('enabled' => true),
         'content' => array('enabled' => true),
+        'admin' => array('enabled' => true),
+        'order' => array('enabled' => true),
     ),
     /**
      * Default files that are included automatically for each module

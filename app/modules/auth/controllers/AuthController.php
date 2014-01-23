@@ -7,15 +7,9 @@ use Auth,
     Redirect,
     View,
     Config,
+    Cartalyst\Sentry\Sentry,
     Authentication,
-    Sentry,
-    Cartalyst\Sentry\Users\LoginRequiredException AS LoginRequiredException,
-    Cartalyst\Sentry\Users\PasswordRequiredException AS PasswordRequiredException,
-    Cartalyst\Sentry\Users\WrongPasswordException AS WrongPasswordException,
-    Cartalyst\Sentry\Users\UserNotFoundException AS UserNotFoundException,
-    Cartalyst\Sentry\Users\UserNotActivatedException AS UserNotActivatedException,
-    Cartalyst\Sentry\Users\UserSuspendedException AS UserSuspendedException,
-    Cartalyst\Sentry\Users\UserBannedException AS UserBannedException;
+    Session;
 
 /**
  * Authentication controller
@@ -41,42 +35,19 @@ class AuthController extends \BaseController
      */
     public function postLogin()
     {
-        try {
-            $loginField = Config::get('cartalyst/sentry::users.login_attribute');
-            $passwordField = 'password';
+        $loginField = Config::get('cartalyst/sentry::users.login_attribute');
+        $passwordField = 'password';
 
-            // Set login credentials
-            $credentials = array(
-                $loginField => \Input::get('email'),
-                $passwordField => \Input::get('password'),
-            );
-            // Try to authenticate the user
-            $user = Sentry::authenticate($credentials, false);
+        // Set login credentials
+        $credentials = array(
+            $loginField => \Input::get('email'),
+            $passwordField => \Input::get('password'),
+        );
+        // Try to authenticate the user
+        if ($user = Authentication::authenticate($credentials, true)) {
+            return \Redirect::to('admin/dashboard')->with('success', 'Welcome to dashboard.');
         }
-        catch (LoginRequiredException $e) {
-            $this->error = 'Login field is required.';
-        }
-        catch (PasswordRequiredException $e) {
-            $this->error = 'Password field is required.';
-        }
-        catch (WrongPasswordException $e) {
-            $this->error = 'Wrong password, try again.';
-        }
-        catch (UserNotFoundException $e) {
-            $this->error = 'User was not found.';
-        }
-        catch (UserNotActivatedException $e) {
-            $this->error = 'User is not activated.';
-        }
-
-// The following is only required if throttle is enabled
-        catch (UserSuspendedException $e) {
-            $this->error = 'User is suspended.';
-        }
-        catch (UserBannedException $e) {
-            $this->error = 'User is banned.';
-        }
-        return \Redirect::to('login')->with('error', $this->error);
+        return \Redirect::route('admin.login')->with('error', Authentication::getError());
     }
 
     /**
@@ -85,7 +56,8 @@ class AuthController extends \BaseController
      */
     public function getLogout()
     {
-        return Redirect::route('login');
+        Session::flush();
+        return Redirect::to('admin/login');
     }
 
 }
