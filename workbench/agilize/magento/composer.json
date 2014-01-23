@@ -1,0 +1,25 @@
+{
+    "name": "agilize/magento",
+    "description": "",
+    "authors": [
+        {
+            "name": "Santosh Moktan",
+            "email": "itmyprofession@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.1.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/controllers",
+            "src/models"
+        ],
+        "psr-0": {
+            "Agilize\\Magento\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
